@@ -1,0 +1,14 @@
+body {
+  background: #f6f6f6;
+  margin-top: 50px;
+  font: "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+.img-col {
+  height: 380px;
+}
+
+.uploadImagesThumb {
+    height: 75px;
+    border: 1px solid #000;
+    margin: 10px 5px 0 0;
+  }
