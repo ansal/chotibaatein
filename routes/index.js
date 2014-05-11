@@ -4,5 +4,9 @@
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  if(!req.user) {
+    res.send('Not logged in yet!');
+    return;
+  }
+  res.json(req.user);
 };
