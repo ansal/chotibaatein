@@ -1,4 +1,6 @@
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
+
 var User = require('../models/user.js');
 
 module.exports = function(passport, configs) {
@@ -15,9 +17,9 @@ module.exports = function(passport, configs) {
 
   // Google oAuth login
   passport.use(new GoogleStrategy({
-    clientID: configs.development.google.clientID,
-    clientSecret: configs.development.google.clientSecret,
-    callbackURL: configs.development.google.callbackURL,
+    clientID: configs.google.clientID,
+    clientSecret: configs.google.clientSecret,
+    callbackURL: configs.google.callbackURL,
     scope: [
       'https://www.googleapis.com/auth/userinfo.email',
       'https://www.googleapis.com/auth/userinfo.profile'
@@ -45,5 +47,7 @@ module.exports = function(passport, configs) {
       });
     }
   ));
+
+  
 
 };
