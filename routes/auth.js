@@ -1,5 +1,5 @@
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var TwitterStrategy = require('passport-twitter').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 var User = require('../models/user.js');
 
@@ -48,6 +48,34 @@ module.exports = function(passport, configs) {
     }
   ));
 
-  
+  // Google oAuth login
+  passport.use(new FacebookStrategy({
+    clientID: configs.facebook.clientID,
+    clientSecret: configs.facebook.clientSecret,
+    callbackURL: configs.facebook.callbackURL,
+  },
+    function(accessToken, refreshToken, profile, done) {
+      console.log(profile)
+      User.findOne({'facebook.id': profile.id}, function(err, user){
+        if(err) { console.log(err); }
+        // create a new user account if he doesnot exist
+        if(!user) {
+          var user = new User({
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            username: profile.username,
+            provider: 'facebook',
+            facebook: profile._json
+          });
+          user.save(function(err){
+            if(err) { console.log(err); }
+            return done(err, user);
+          });
+        } else {
+          return done(err, user);
+        }
+      });
+    }
+  ));
 
 };
