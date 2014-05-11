@@ -62,7 +62,6 @@ module.exports = function(passport, configs) {
         if(!user) {
           var user = new User({
             name: profile.displayName,
-            email: profile.emails[0].value,
             username: profile.username,
             provider: 'facebook',
             facebook: profile._json
