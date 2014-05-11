@@ -25,4 +25,12 @@ module.exports = function(app, passport) {
     failureRedirect: '?loginError=true' })
   );
 
+  // twitter
+
+  app.get('/auth/login/twitter', passport.authenticate('twitter'));
+  app.get(config.twitter.callbackURL, 
+    passport.authenticate('twitter', { successRedirect: '/',
+    failureRedirect: '?loginError=true' })
+  );  
+
 }

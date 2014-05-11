@@ -1,5 +1,6 @@
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 var User = require('../models/user.js');
 
@@ -16,6 +17,7 @@ module.exports = function(passport, configs) {
   });
 
   // Google oAuth login
+  
   passport.use(new GoogleStrategy({
     clientID: configs.google.clientID,
     clientSecret: configs.google.clientSecret,
@@ -48,7 +50,38 @@ module.exports = function(passport, configs) {
     }
   ));
 
-  // Google oAuth login
+  // twitter oAuth login
+
+  passport.use(new TwitterStrategy({
+    consumerKey: configs.twitter.clientID,
+    consumerSecret: configs.twitter.clientSecret,
+    callbackURL: configs.twitter.callbackURL
+  },
+    function(accessToken, refreshToken, profile, done) {
+      console.log(profile)
+      User.findOne({'twitter.id_str': profile.id}, function(err, user){
+        if(err) { console.log(err); }
+        // create a new user account if he doesnot exist
+        if(!user) {
+          var user = new User({
+            name: profile.displayName,
+            username: profile.username,
+            provider: 'twitter',
+            twitter: profile._json
+          });
+          user.save(function(err){
+            if(err) { console.log(err); }
+            return done(err, user);
+          });
+        } else {
+          return done(err, user);
+        }
+      });
+    }
+  ));
+
+  // Facebook oAuth login
+  
   passport.use(new FacebookStrategy({
     clientID: configs.facebook.clientID,
     clientSecret: configs.facebook.clientSecret,
