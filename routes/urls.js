@@ -31,6 +31,14 @@ module.exports = function(app, passport) {
   app.get(config.twitter.callbackURL, 
     passport.authenticate('twitter', { successRedirect: '/',
     failureRedirect: '?loginError=true' })
+  );
+
+  // github
+
+  app.get('/auth/login/github', passport.authenticate('github'));
+  app.get(config.github.callbackURL, 
+    passport.authenticate('github', { successRedirect: '/',
+    failureRedirect: '?loginError=true' })
   );  
 
 }
