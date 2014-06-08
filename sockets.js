@@ -7,6 +7,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 // app modules
 var configs = require('./config.js');
+var User = require('./models/user.js');
 
 module.exports = function(app, server) {
 
@@ -27,21 +28,40 @@ module.exports = function(app, server) {
         return accept('Error retrieving session - mongo failed!', false);
       }
       var sessionCollections = db.collection(configs.sessionCollection);
-      sessionCollections.findOne({_id: sessionId}, saveHeaderData);
+      sessionCollections.findOne({_id: sessionId}, checkPassportUser);
     }
 
-    // saves user info and other info in websocket header
-    function saveHeaderData(err, session) {
+    // check whether there is a passport obj in session
+    function checkPassportUser(err, session) {
       if(err || !session) {
         console.dir(err);
         return accept('Error retrieving session!', false);
       }
       
-      // check whether the session object has a passport field
-      // this tells that user is logged in via passport
+      // check whether the session object has a passport object with user field
+      // this tells that user is logged in via passport or not
+      var passportObj = JSON.parse(session.session);
+      if (typeof passportObj.passport.user === 'undefined') {
+        return accept('User not logged in!', false);
+      }
+
+      // load the user from collection and add to header
+      User.findOne({_id: passportObj.passport.user}, addUserDataToHeader);
 
     }
 
+    function addUserDataToHeader(err, user){
+      if(err) {
+        return accept('Socket session - User not found in session', false);
+      }
+      
+      hsData.chotibaatein = {
+        user: user
+      }
+
+      return accept(null, true);
+
+    }
 
     // parse the cookies
     // TODO: connect is rasing a warning that this api is moved to private?
