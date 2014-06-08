@@ -1,11 +1,16 @@
 // URLS defined by all the routes
-var routes = require('./index.js');
+var pages = require('./index.js');
+var groupchat = require('./groupchat.js');
 var config = require('../config.js')
+var utils = require('../utils.js');
 
 module.exports = function(app, passport) {
   
   // Pages outside login
-  app.get('/', routes.index);
+  app.get('/', pages.index);
+
+  // pages after login
+  app.get('/app', utils.restrictUser, groupchat.home);
 
   // authentication pages, mostly hooks up with passportjs
   

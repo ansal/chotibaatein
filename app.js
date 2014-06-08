@@ -1,7 +1,5 @@
 
-/**
- * Module dependencies.
- */
+// ChotiBaatein - A simple group chat app.
 
 // Module dependencies
 var express = require('express');
@@ -11,10 +9,12 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var mongostore = require('connect-mongo')(express);
 
+// app modules
 var routes = require('./routes');
 var urls = require('./routes/urls.js')
 var configs = require('./config.js');
 var authentications = require('./routes/auth.js');
+var sockets = require('./sockets');
 
 var app = express();
 
@@ -32,8 +32,8 @@ app.use(express.bodyParser());
 app.use(express.session({
   secret: configs.sessionSecret,
   store: new mongostore({
-    url: configs.development.db,
-    collection : 'sessions'
+    url: configs.db,
+    collection : configs.sessionCollection
   })
 }));
 app.use(passport.initialize());
@@ -62,11 +62,11 @@ if ('development' == appEnvironment) {
 }
 
 // Connect to mongodb
-mongoose.connect(configs.development.db);
+mongoose.connect(configs.db);
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongo connection error:'));
 db.once('open', function callback () {
-  console.log('connected to mongodb - ', configs.development.db);
+  console.log('connected to mongodb - ', configs.db);
 });
 
 // setup authentications
@@ -75,6 +75,12 @@ authentications(passport, configs);
 // define the urls
 urls(app, passport);
 
-http.createServer(app).listen(app.get('port'), function(){
+
+// creates the http server
+var server = http.createServer(app);
+server.listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
+
+// setup sockets
+sockets(app, server);

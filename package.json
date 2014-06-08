@@ -6,15 +6,19 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "connect": "^2.19.4",
     "connect-mongo": "^0.4.1",
+    "cookie": "^0.1.2",
     "express": "3.4.8",
     "jade": "*",
+    "mongodb": "^1.4.5",
     "mongoose": "^3.8.8",
     "passport": "^0.2.0",
     "passport-facebook": "^1.0.3",
     "passport-github": "^0.1.5",
     "passport-google": "^0.3.0",
     "passport-google-oauth": "^0.1.5",
-    "passport-twitter": "^1.0.2"
+    "passport-twitter": "^1.0.2",
+    "socket.io": "^1.0.4"
   }
 }

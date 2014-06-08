@@ -8,5 +8,5 @@ exports.index = function(req, res){
     res.send('Not logged in yet!');
     return;
   }
-  res.json(req.user);
+  res.redirect('/app');
 };

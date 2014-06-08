@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+  head
+    title Web socket testing
+
+  body
+
+    input#message(type="text")
+
+    hr
+
+    ul#messages
+
+    script(src="/assets/javascripts/lib/jquery.min.js")
+    script(src="/socket.io/socket.io.js")
+    script(type="text/javascript").
+      var socket = io();
+      $('#message').on('keyup', function(e){
+        if(e.which !== 13) {
+          return;
+        }
+        var message = $(this).val();
+        socket.emit('newMessage', message);
+        $(this).val('');
+      });
+      socket.on('newMessage', function(msg){
+        $('#messages').append('<li>' + msg + '</li>');
+      });
