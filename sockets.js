@@ -9,16 +9,16 @@ var MongoClient = require('mongodb').MongoClient;
 var configs = require('./config.js');
 var User = require('./models/user.js');
 
-module.exports = function(app, server) {
+module.exports = function(app, server, mongostore) {
 
   // start socket io server
   var io = sio.listen(server);
 
   // socket authorization
   // checks for connect.sid in cookie
-  // this wont check for whether a user is authorized
-  // or not to join a room
-  io.set('authorization', function(hsData, accept){
+  io.use(function(hsData, accept){
+
+    hsData = hsData.handshake;
 
     // inorder to fetch data from mongo, we need to connect to mongo
     // TODO: may be this can be a mongoose model
@@ -57,7 +57,7 @@ module.exports = function(app, server) {
       
       hsData.chotibaatein = {
         user: user
-      }
+      };
 
       return accept(null, true);
 
@@ -88,22 +88,18 @@ module.exports = function(app, server) {
   io.on('connection', function(socket){
 
     console.log('user connected \\o/');
-/*
-    if(socket.handshake.headers.cookie) {
 
-      var parsedCookie = cookie.parse(socket.handshake.headers.cookie);
-      var sessionId = connect.utils.parseSignedCookies(parsedCookie, 'thisShouldNotBeUsedInProduction');
-      console.log(sessionId);
-    
-    }
-*/
+    var hs = socket.handshake;
+    console.log(hs)
 
     socket.on('disconnect', function(){
       console.log('user disconnected');
     });
+
     socket.on('newMessage', function(msg){
       io.emit('newMessage', msg);
     });
+
   });
 
 };

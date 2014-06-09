@@ -1,14 +1,12 @@
-body {
-  background: #f6f6f6;
-  margin-top: 50px;
-  font: "Lucida Grande", Helvetica, Arial, sans-serif;
+/* custom styles for chotibaatein */
+.emptyMargin {
+  margin-bottom: 2%;
 }
-.img-col {
-  height: 380px;
+.scrollBarMessages {
+  height: 530px;
+  overflow-y: auto;
 }
-
-.uploadImagesThumb {
-    height: 75px;
-    border: 1px solid #000;
-    margin: 10px 5px 0 0;
-  }
+.scrollBarPeople {
+  height: 250px;
+  overflow-y: auto;
+}

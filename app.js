@@ -83,4 +83,4 @@ server.listen(app.get('port'), function(){
 });
 
 // setup sockets
-sockets(app, server);
+sockets(app, server, mongostore);
