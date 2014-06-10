@@ -69,13 +69,16 @@ var app = app || {};
     events: {
       'click .chatRoomLink': 'showUsers',
       'keyup .newUserToRoom': 'addNewUser',
-      'click .removeUser': 'removeUser'
+      'click .removeUser': 'removeUser',
+      'keyup .newRoomName': 'updateRoomName',
+      'click .removeGroupButton': 'removeGroup'
     },
 
     initialize: function() {
 
       // listen to model events
       this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'destroy', this.remove);
     },
 
     render: function(e) {
@@ -126,6 +129,25 @@ var app = app || {};
       users = _.without(users, email);
       this.model.set('allowedUsers', users);
       this.model.save();
+    },
+
+    updateRoomName: function(e) {
+      var newRoomName = this.$el.find('.newRoomName');
+      var name = $(newRoomName).val().trim();
+      // check whether user has pressed enter key or not
+      // and then check for valid input
+      if(e.which !== 13 || !name) {
+        return;
+      }
+      this.model.set('name', name);
+      this.model.save();
+    },
+
+    removeGroup: function() {
+      var confirmation = window.confirm('There is no going back!\n\nAre you sure?')
+      if(confirmation) {
+        this.model.destroy();
+      }
     }
 
   });
