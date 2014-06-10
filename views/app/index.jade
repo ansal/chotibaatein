@@ -10,26 +10,15 @@ block app
 
   // chat rooms
   div.row
-    div.col-md-2
-      ul.nav.nav-pills.nav-stacked
-        li
-          a(href="#") Jaaga Study 
-            span.badge 12
-        li.active
-          a(href="#") Javascript
-        li
-          a(href="#") Python + Django 
-            span.badge 12
-        li
-          a(href="#") Android 
-            span.badge 1
-        li
-          a(href="#") Startups
-        li
-          a(href="#") Fun! 
-            span.badge 2
+    div.col-md-3
+      div.panel.panel-primary
+        div.panel-heading
+          h3.panel-title Rooms
+        div.panel-body.scrollBarMessages
+          div
+            ul.nav.nav-pills.nav-stacked#chatRooms
 
-    div.col-md-7
+    div.col-md-6
       div.panel.panel-primary
         div.panel-heading
           h3.panel-title Messages
@@ -153,7 +142,28 @@ block app
                 br
                 small.text-muted Person 1 on 14, Jan 2014 4.30PM
 
+  block templates
+    script#roomTemplate(type="text/template")
+      a.chatRoomLink(href="#") <%= name %> 
+        span
+          .badge 0
+
+
 block javascripts
   // javascript libraries
   script(src="/assets/javascripts/lib/jquery.min.js")
   script(src="/assets/javascripts/lib/bootstrap.min.js")
+  script(src="/assets/javascripts/lib/underscore.min.js")
+  script(src="/assets/javascripts/lib/backbone-min.js")
+
+  // backbone app
+  script(src="/assets/app/chatroom/models.js")
+  script(src="/assets/app/chatroom/collections.js")
+  script(src="/assets/app/chatroom/views.js")
+  script(src="/assets/app/chatroom/app.js")
+
+  // for bootstrapping backbone models
+  script
+    | app.Rooms.reset(
+    != ownedRooms
+    |);

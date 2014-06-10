@@ -8,7 +8,26 @@ var ChatModels = require('../models/chat.js');
 // this is where chat happens
 exports.home = function(req, res) {
 
-  res.render('app/index.jade');
+  var ChatRoom = ChatModels.ChatRoom;
+
+  // for bootstraping backbone models
+  ChatRoom
+  .find()
+  .where('owner.id').equals(req.user._id)
+  .exec(function(err, ownedRooms){
+
+    if(err) {
+      console.log(err);
+      res.send(500);
+      return;
+    }
+
+    res.render('app/index.jade', {
+      // inorder to use as an inline JS, convert models into string first
+      ownedRooms: JSON.stringify(ownedRooms)
+    });
+
+  });
 
 };
 
