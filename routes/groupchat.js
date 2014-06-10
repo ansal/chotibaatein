@@ -18,6 +18,7 @@ exports.manageChatRoom = function(req, res) {
 
   var ChatRoom = ChatModels.ChatRoom;
 
+  // bootstrap backbone models
   // find the rooms created by the user
   ChatRoom
   .find()
@@ -31,7 +32,8 @@ exports.manageChatRoom = function(req, res) {
     }
 
     res.render('app/manage-chat-rooms.jade', {
-      ownedRooms: ownedRooms
+      // inorder to use as an inline JS, convert models into string first
+      ownedRooms: JSON.stringify(ownedRooms)
     });
 
   });

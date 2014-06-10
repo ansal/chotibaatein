@@ -5,24 +5,60 @@ block app
     div.col-md-12
       h3  Rooms you created -
       hr
-      ul
-        each ownedRoom in ownedRooms
-          li
-            h4
-              a(href="#")=ownedRoom.name
-              br
-              small=ownedRoom.allowedUsers.length
-                |  Users, 
-                =ownedRoom.onlineUsers.length
-                |  Online.
+      div.alert.alert-info#noChatRoomMessage(style="display:none;")
+        | You haven't created a room yet! Create one now :)
+      p.pull-right
+        button.btn.btn-success#addChatRoom
+          span.glyphicon.glyphicon-plus
+          |  Create Room
+      ul#ownedRoomList
 
   div.row
     div.col-md-12
       h3 Rooms you are added to -
       hr
+      div.alert.alert-info
+        | You are not yet added to any room :(
+      ul#addedRoomList
+
+block templates
+  script#ownedRoomTemplate(type="text/template")
+    h4
+      a.chatRoomLink(href="#") <%= name %>
+      br
+      small <%= allowedUsers.length %> users, <%= onlineUsers.length %> online.
+    div.allowedUsersDiv(style="display:none;")
+      div.row
+        div.col-md-7
+          h5
+            strong Room Settings
+          p
+            div.col-md-5
+              input.form-control.input-sm.newRoomName(type="text", placeholder="Type new name for Room and press Enter")
+            div.col-md-2
+              button.btn.btn-danger.btn-sm
+                span.glyphicon.glyphicon-remove-sign
+                |  Delete this Group
+      div.row
+        div.col-md-12
+          h5
+            strong Users
+          ul.allowedUsersList
+            <% _.each(allowedUsers, function(user){ %>
+            li
+              h5 <%= user  %> 
+                a.removeUser(href="#") 
+                  small Remove
+                  span.emailAddress(style="display:none;") <%= user %>
+            <%  }); %>
+          div.row
+            div.col-md-4
+              input.form-control.input-sm.newUserToRoom(type="text", placeholder="Type email address and press Enter to add new people")
+              hr
 
 
 block javascripts
+
   // javascript libraries
   script(src="/assets/javascripts/lib/jquery.min.js")
   script(src="/assets/javascripts/lib/bootstrap.min.js")
@@ -34,3 +70,9 @@ block javascripts
   script(src="/assets/app/chatroom-manage/collections.js")
   script(src="/assets/app/chatroom-manage/views.js")
   script(src="/assets/app/chatroom-manage/app.js")
+
+  // for bootstrapping backbone models
+  script
+    | app.chatRooms.reset(
+    != ownedRooms
+    |);

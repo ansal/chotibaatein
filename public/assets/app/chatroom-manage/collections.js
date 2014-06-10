@@ -4,12 +4,12 @@ var app = app || {};
 // collection for model ChatRoom
 (function(){
 
-  var ChatRooms = Backbone.Collection.extend({
+  app.ChatRooms = Backbone.Collection.extend({
     model: app.ChatRoom,
     url: '/api/chatroom'
   });
 
-  // create the collection and add to global app
-  app.chatRooms = new ChatRooms();
+  // inorder to bootstrap backbone models, we can use the inlince script
+  // included in jade script
 
 })();
