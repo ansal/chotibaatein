@@ -1,0 +1,48 @@
+doctype html
+html(lang="en")
+  head
+    title ChotiBaatein
+    link(href="/assets/stylesheets/bootstrap.min.css", rel="stylesheet")
+    link(href="/assets/stylesheets/styles.css", rel="stylesheet")
+
+  body
+
+    // navigation bar
+    nav.navbar.navbar-default(role="navigation")
+      div.container-fluid
+        div.navbar-header
+          button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-collapse-links-1")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="/app") ChotiBaatein
+
+        div.collapse.navbar-collapse#navbar-collapse-links-1
+          ul.nav.navbar-nav.navbar-right
+            li.active
+              a(href="#") Chat Rooms
+            li
+              a(href="#") Manage Rooms
+            li
+              a(href="#") Profile
+            li
+              a(href="#") Logout
+
+    // app body
+    div.container-fluid
+      block app
+
+      div.row
+        div.col-md-12
+          hr
+          p
+            | Built with 
+            span.glyphicon.glyphicon-heart
+            |  in 
+            a(href="https://www.zenpics.net/album/5358a16533cb3aae749d9774") Banjarpalya
+            | . View 
+            a(href="https://github.com/ansal/chotibaatein") source
+            |.
+
+    block javascripts

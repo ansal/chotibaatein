@@ -1,0 +1,36 @@
+extends base
+
+block app
+  div.row
+    div.col-md-12
+      h3  Rooms you created -
+      hr
+      ul
+        each ownedRoom in ownedRooms
+          li
+            h4
+              a(href="#")=ownedRoom.name
+              br
+              small=ownedRoom.allowedUsers.length
+                |  Users, 
+                =ownedRoom.onlineUsers.length
+                |  Online.
+
+  div.row
+    div.col-md-12
+      h3 Rooms you are added to -
+      hr
+
+
+block javascripts
+  // javascript libraries
+  script(src="/assets/javascripts/lib/jquery.min.js")
+  script(src="/assets/javascripts/lib/bootstrap.min.js")
+  script(src="/assets/javascripts/lib/underscore.min.js")
+  script(src="/assets/javascripts/lib/backbone-min.js")
+
+  // backbone app
+  script(src="/assets/app/chatroom-manage/models.js")
+  script(src="/assets/app/chatroom-manage/collections.js")
+  script(src="/assets/app/chatroom-manage/views.js")
+  script(src="/assets/app/chatroom-manage/app.js")

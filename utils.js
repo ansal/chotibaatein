@@ -5,6 +5,10 @@ exports.restrictUser = function(req, res, next) {
   if(req.isAuthenticated()) {
     next();
   } else {
-    res.redirect('/?loggedOut=true');
+    if (req.xhr) {
+      res.send(403);
+    } else {
+      res.redirect('/?loggedOut=true');
+    }
   }
 };

@@ -3,6 +3,7 @@ var pages = require('./index.js');
 var groupchat = require('./groupchat.js');
 var config = require('../config.js')
 var utils = require('../utils.js');
+var apis = require('./api.js');
 
 module.exports = function(app, passport) {
   
@@ -11,6 +12,16 @@ module.exports = function(app, passport) {
 
   // pages after login
   app.get('/app', utils.restrictUser, groupchat.home);
+  app.get('/app/manage-rooms', utils.restrictUser, groupchat.manageChatRoom);
+
+  // restful apis
+
+  // chat room
+  app.get('/api/chatroom', utils.restrictUser, apis.AllChatRooms);
+  app.post('/api/chatroom', utils.restrictUser, apis.CreateChatRoom);
+  app.put('/api/chatroom/:id', utils.restrictUser, apis.UpdateChatRoom);
+  app.delete('/api/chatroom/:id', utils.restrictUser, apis.DeleteChatRoom);
+
 
   // authentication pages, mostly hooks up with passportjs
   

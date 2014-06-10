@@ -1,198 +1,159 @@
-doctype html
-html(lang="en")
-  head
-    title ChotiBaatein
-    link(href="/assets/stylesheets/bootstrap.min.css", rel="stylesheet")
-    link(href="/assets/stylesheets/styles.css", rel="stylesheet")
+extends base
 
-  body
+block app
+  div.row
+    div.col-md-12
+      p.pull-right
+        small
+          | Hi, you are subscribed to 4 
+          a(href="#") chat rooms.
 
-    // navigation bar
-    nav.navbar.navbar-default(role="navigation")
-      div.container-fluid
-        div.navbar-header
-          button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-collapse-links-1")
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          a.navbar-brand(href="/app") ChotiBaatein
+  // chat rooms
+  div.row
+    div.col-md-2
+      ul.nav.nav-pills.nav-stacked
+        li
+          a(href="#") Jaaga Study 
+            span.badge 12
+        li.active
+          a(href="#") Javascript
+        li
+          a(href="#") Python + Django 
+            span.badge 12
+        li
+          a(href="#") Android 
+            span.badge 1
+        li
+          a(href="#") Startups
+        li
+          a(href="#") Fun! 
+            span.badge 2
 
-        div.collapse.navbar-collapse#navbar-collapse-links-1
-          ul.nav.navbar-nav.navbar-right
-            li.active
-              a(href="#") Rooms
-            li
-              a(href="#") Profile
-            li
-              a(href="#") Logout
+    div.col-md-7
+      div.panel.panel-primary
+        div.panel-heading
+          h3.panel-title Messages
+        div.panel-body.scrollBarMessages#chatWindow
+            div#chatMessages
+              div.well.well-sm
+                |  Looks like its going to rain today! Looks like its going to rain today! Looks like y!
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-    // app body
-    div.container-fluid
-      div.row
-        div.col-md-12
-          p.pull-right
-            small
-              | Hi, you are subscribed to 4 
-              a(href="#") chat rooms.
+              div.well.well-sm
+                |  Looks like its going to rain today! Looks like its going to rain today! Looks s going to rain today! Looks like its going to rain today!
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-      // chat rooms
-      div.row
-        div.col-md-2
-          ul.nav.nav-pills.nav-stacked
-            li
-              a(href="#") Jaaga Study 
-                span.badge 12
-            li.active
-              a(href="#") Javascript
-            li
-              a(href="#") Python + Django 
-                span.badge 12
-            li
-              a(href="#") Android 
-                span.badge 1
-            li
-              a(href="#") Startups
-            li
-              a(href="#") Fun! 
-                span.badge 2
+              div.well.well-sm
+                |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its goits gay!
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-        div.col-md-7
-          div.panel.panel-primary
-            div.panel-heading
-              h3.panel-title Messages
-            div.panel-body.scrollBarMessages#chatWindow
-                div#chatMessages
-                  div.well.well-sm
-                    |  Looks like its going to rain today! Looks like its going to rain today! Looks like y!
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+              div.well.well-sm
+                |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its goits going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today!
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-                  div.well.well-sm
-                    |  Looks like its going to rain today! Looks like its going to rain today! Looks s going to rain today! Looks like its going to rain today!
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+              div.well.well-sm
+                |  Looks like its g
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-                  div.well.well-sm
-                    |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its goits gay!
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+              div.well.well-sm
+                |  Looks like its going to rain today! Looks like its going to rain today! Looks liy!
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-                  div.well.well-sm
-                    |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its goits going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today!
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+              div.well.well-sm
+                |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its gg to rain today! Looks like its going to rain today!
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-                  div.well.well-sm
-                    |  Looks like its g
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+              div.well.well-sm
+                |  Looks like its goin
+                br
+                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
+                small.text-muted
+                  em  Person 1 on Jan 12 2014 at 5.30PM
 
-                  div.well.well-sm
-                    |  Looks like its going to rain today! Looks like its going to rain today! Looks liy!
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+            div.newChatArea#newChatArea
+              textarea.form-control(placeholder="Type your message and press Enter!", rows=2)
+              p.pull-right
+                br
+                button.btn.btn-primary
+                  span.glyphicon.glyphicon-envelope
+                  |  Send Message
+                | 
+                button.btn.btn-success
+                  span.glyphicon.glyphicon-cloud-upload
+                  |  Upload File
 
-                  div.well.well-sm
-                    |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its gg to rain today! Looks like its going to rain today!
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+    div.col-md-3
+      div.col-md-12
+        div.panel.panel-primary
+          div.panel-heading
+            h3.panel-title People
+          div.panel-body.scrollBarPeople
+            h6
+              span.text-success 12 
+              | people online!
 
-                  div.well.well-sm
-                    |  Looks like its goin
-                    br
-                    img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                    small.text-muted
-                      em  Person 1 on Jan 12 2014 at 5.30PM
+            ul.list-group
+              li.list-group-item.list-group-item-success Person 1
+              li.list-group-item.list-group-item-warning Person 2 Person
+              li.list-group-item.list-group-item-success Person 1
+              li.list-group-item.list-group-item-success Person 2 Person
+              li.list-group-item.list-group-item-warning Person 1
+              li.list-group-item.list-group-item-success Person 1
+              li.list-group-item.list-group-item-success Person 2 Person
+              li.list-group-item.list-group-item-warning Person 2 Person
+      div.col-md-12
+        div.panel.panel-primary
+          div.panel-heading
+            h3.panel-title Files
+          div.panel-body.scrollBarPeople
+            ul.list-group
+              li.list-group-item.list-group-item-default
+                a(href="#") Img.jpg
+                br
+                small.text-muted Person 1 on 14, Jan 2014 4.30PM
 
-                div.newChatArea#newChatArea
-                  textarea.form-control(placeholder="Type your message and press Enter!", rows=2)
-                  p.pull-right
-                    br
-                    button.btn.btn-primary
-                      span.glyphicon.glyphicon-envelope
-                      |  Send Message
-                    | 
-                    button.btn.btn-success
-                      span.glyphicon.glyphicon-cloud-upload
-                      |  Upload File
+              li.list-group-item.list-group-item-default
+                a(href="#") Img.jpg
+                br
+                small.text-muted Person 1 on 14, Jan 2014 4.30PM
 
-        div.col-md-3
-          div.col-md-12
-            div.panel.panel-primary
-              div.panel-heading
-                h3.panel-title People
-              div.panel-body.scrollBarPeople
-                h6
-                  span.text-success 12 
-                  | people online!
+              li.list-group-item.list-group-item-default
+                a(href="#") Img.jpg
+                br
+                small.text-muted Person 1 on 14, Jan 2014 4.30PM
 
-                ul.list-group
-                  li.list-group-item.list-group-item-success Person 1
-                  li.list-group-item.list-group-item-warning Person 2 Person
-                  li.list-group-item.list-group-item-success Person 1
-                  li.list-group-item.list-group-item-success Person 2 Person
-                  li.list-group-item.list-group-item-warning Person 1
-                  li.list-group-item.list-group-item-success Person 1
-                  li.list-group-item.list-group-item-success Person 2 Person
-                  li.list-group-item.list-group-item-warning Person 2 Person
-          div.col-md-12
-            div.panel.panel-primary
-              div.panel-heading
-                h3.panel-title Files
-              div.panel-body.scrollBarPeople
-                ul.list-group
-                  li.list-group-item.list-group-item-default
-                    a(href="#") Img.jpg
-                    br
-                    small.text-muted Person 1 on 14, Jan 2014 4.30PM
+              li.list-group-item.list-group-item-default
+                a(href="#") Img.jpg
+                br
+                small.text-muted Person 1 on 14, Jan 2014 4.30PM
 
-                  li.list-group-item.list-group-item-default
-                    a(href="#") Img.jpg
-                    br
-                    small.text-muted Person 1 on 14, Jan 2014 4.30PM
+              li.list-group-item.list-group-item-default
+                a(href="#") Img.jpg
+                br
+                small.text-muted Person 1 on 14, Jan 2014 4.30PM
 
-                  li.list-group-item.list-group-item-default
-                    a(href="#") Img.jpg
-                    br
-                    small.text-muted Person 1 on 14, Jan 2014 4.30PM
-
-                  li.list-group-item.list-group-item-default
-                    a(href="#") Img.jpg
-                    br
-                    small.text-muted Person 1 on 14, Jan 2014 4.30PM
-
-                  li.list-group-item.list-group-item-default
-                    a(href="#") Img.jpg
-                    br
-                    small.text-muted Person 1 on 14, Jan 2014 4.30PM
-
-      div.row
-        div.col-md-12
-          hr
-          p
-            | Built with 
-            span.glyphicon.glyphicon-heart
-            |  in 
-            a(href="https://www.zenpics.net/album/5358a16533cb3aae749d9774") Banjarpalya
-            | . View 
-            a(href="https://github.com/ansal/chotibaatein") source
-            |.
-
-    // javascript libraries
-    script(src="/assets/javascripts/lib/jquery.min.js")
-    script(src="/assets/javascripts/lib/bootstrap.min.js")
+block javascripts
+  // javascript libraries
+  script(src="/assets/javascripts/lib/jquery.min.js")
+  script(src="/assets/javascripts/lib/bootstrap.min.js")
