@@ -1,24 +1,28 @@
 extends base
 
 block app
+  // chat rooms
   div.row
     div.col-md-12
       p.pull-right
-        small
-          | Hi, you are subscribed to 4 
-          a(href="#") chat rooms.
-
-  // chat rooms
+        button.btn.btn-xs.btn-inverse#chatRoomShowButton(style="display:none;")
+          span.glyphicon.glyphicon-chevron-up Rooms
+        |  
+        button.btn.btn-xs.btn-inverse#peopleFileShowButton(style="display:none;")
+          span.glyphicon.glyphicon-chevron-up Users
   div.row
-    div.col-md-3
+    div.col-md-3#chatRoomCol
       div.panel.panel-primary
         div.panel-heading
           h3.panel-title Rooms
+            small.pull-right
+              button.btn.btn-xs.btn.default#chatRoomHideButton
+                span.glyphicon.glyphicon-chevron-down
         div.panel-body.scrollBarMessages
           div
             ul.nav.nav-pills.nav-stacked#chatRooms
 
-    div.col-md-6
+    div.col-md-6#chatMessageCol
       div.panel.panel-primary
         div.panel-heading
           h3.panel-title#chatMessageTitle Messages
@@ -39,11 +43,14 @@ block app
                   span.glyphicon.glyphicon-cloud-upload
                   |  Upload File
 
-    div.col-md-3
+    div.col-md-3#peopleFileCol
       div.col-md-12
         div.panel.panel-primary
           div.panel-heading
             h3.panel-title People
+              small.pull-right
+                button.btn.btn-xs.btn.default#peopleFileHideButton
+                  span.glyphicon.glyphicon-chevron-down
           div.panel-body.scrollBarPeople
             h6
               span.text-success 12 

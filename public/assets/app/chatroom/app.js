@@ -46,4 +46,52 @@ var app = app || {};
     app.Messages.add(msg);
   });
 
+  // click handlers for buttons to hide either of the three boxes
+
+  var $chatRoomCol = $('#chatRoomCol');
+  var $chatMessageCol = $('#chatMessageCol');
+  var $peopleFileCol = $('#peopleFileCol');
+  var $chatRoomShowButton = $('#chatRoomShowButton');
+  var $peopleFileShowButton = $('#peopleFileShowButton');
+
+  $('#chatRoomHideButton').on('click', function(e){
+    $chatRoomCol.hide('fast');
+    if($peopleFileCol.css('display') === 'none') {
+      $chatMessageCol.removeClass('col-md-9').addClass('col-md-12');
+    } else {
+      $chatMessageCol.removeClass('col-md-6').addClass('col-md-9');
+    }
+    $chatRoomShowButton.fadeIn();
+  });
+
+  $('#peopleFileHideButton').on('click', function(e){
+    $peopleFileCol.hide('fast');
+    if($chatRoomCol.css('display') === 'none') {
+      $chatMessageCol.removeClass('col-md-9').addClass('col-md-12');
+    } else {
+      $chatMessageCol.removeClass('col-md-6').addClass('col-md-9');
+    }
+    $peopleFileShowButton.fadeIn();
+  });  
+
+  $chatRoomShowButton.on('click', function(e){
+    $(this).hide('fast');
+    $chatRoomCol.fadeIn();
+    if($peopleFileCol.css('display') === 'none') {
+      $chatMessageCol.removeClass('col-md-12').addClass('col-md-9');
+    } else {
+      $chatMessageCol.removeClass('col-md-9').addClass('col-md-6');
+    }
+  });
+
+  $peopleFileShowButton.on('click', function(e){
+    $(this).hide('fast');
+    $peopleFileCol.fadeIn();
+    if($chatRoomCol.css('display') === 'none') {
+      $chatMessageCol.removeClass('col-md-12').addClass('col-md-9');
+    } else {
+      $chatMessageCol.removeClass('col-md-9').addClass('col-md-6');
+    }
+  });
+
 })();
