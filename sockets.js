@@ -90,14 +90,36 @@ module.exports = function(app, server, mongostore) {
     console.log('user connected \\o/');
 
     var hs = socket.handshake;
-    console.log(hs)
+    var user = {
+      id: hs.chotibaatein.user._id,
+      email: hs.chotibaatein.user.email,
+      name: hs.chotibaatein.user.name,
+      avatar: hs.chotibaatein.user[hs.chotibaatein.user.provider].picture
+    };
 
     socket.on('disconnect', function(){
       console.log('user disconnected');
     });
 
-    socket.on('newMessage', function(msg){
-      io.emit('newMessage', msg);
+    socket.on('myMessage', function(msg){
+
+      console.log('New Message', msg);
+
+      io.sockets.in(msg.room).emit('newMessage', {
+        message: msg.message,
+        user: user,
+        sent: new Date()
+      });
+
+    });
+
+    socket.on('joinRoom', function(room){
+      var room = room.room;
+      socket.join(room, function(err){
+        if(err) {
+          console.log('Error joining room: ' + err);
+        }
+      });
     });
 
   });

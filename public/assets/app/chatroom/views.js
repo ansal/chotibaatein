@@ -70,6 +70,14 @@ var app = app || {};
         }
       });
 
+      // change room in app state
+      app.state.room = room;
+
+      // emit the joinRoom signal
+      app.socket.emit('joinRoom', {
+        room: room
+      });
+
     },
 
   });
@@ -169,6 +177,15 @@ var app = app || {};
       });
 
       this.$newChatMessage.val('');
+
+      // emit the event
+      app.socket.emit('myMessage', {
+        // passing room for convenience
+        // assuming server checks whether the user
+        // has privilege to chat on this group
+        room: app.state.room,
+        message: message
+      });
 
     }
 
