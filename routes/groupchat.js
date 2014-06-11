@@ -13,7 +13,7 @@ exports.home = function(req, res) {
   // for bootstraping backbone models
   ChatRoom
   .find()
-  .where('owner.id').equals(req.user._id)
+  .or([ {'owner.id': req.user._id}, { 'allowedUsers': req.user.email } ])
   .sort('name')
   .exec(function(err, ownedRooms){
 

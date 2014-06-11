@@ -103,13 +103,14 @@ module.exports = function(app, server, mongostore) {
 
     socket.on('myMessage', function(msg){
 
-      console.log('New Message', msg);
-
       io.sockets.in(msg.room).emit('newMessage', {
         message: msg.message,
         user: user,
+        room: msg.room,
         sent: new Date()
       });
+
+      // TODO: save the message to db
 
     });
 

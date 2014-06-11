@@ -29,10 +29,21 @@ var app = app || {};
 
   // listen to events
   app.socket.on('newMessage', function(msg){
-    // only add message of other users
-    if(msg.user.id !== app.User._id) {
-      app.Messages.add(msg);
+    // only add message of other users in the current room user is in
+    if(msg.user.id === app.User._id) {
+      return;
     }
+    // if the message is for other room, update the new message in those rooms 
+    // and return
+    if (msg.room !== app.state.room) {
+      var room = app.Rooms.where({_id: msg.room})[0];
+      var newMsgCount = room.get('newMsgCount');
+      typeof newMsgCount === 'undefined' ?
+        room.set('newMsgCount', 1) : 
+        room.set('newMsgCount', newMsgCount + 1);
+      return;
+    }
+    app.Messages.add(msg);
   });
 
 })();

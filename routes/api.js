@@ -131,8 +131,9 @@ module.exports.ChatMessages = function(req, res) {
     }
 
     // check whether the user is owner or an allowed user of the room
-    // TODO: Add user check here
-    if(req.user.email !== room.owner.email) {
+    if(req.user.email !== room.owner.email
+      && room.allowedUsers.indexOf(req.user.email) === -1
+    ) {
       res.send(404);
       return;
     }
@@ -177,6 +178,8 @@ module.exports.CreateChatMessage = function(req, res) {
       avatar: req.user[req.user.provider].picture
     }
   });
+  // remove this to test
+  return;
   message.save(function(err, savedMsg){
 
     if(err) {

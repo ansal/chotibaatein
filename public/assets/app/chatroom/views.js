@@ -22,6 +22,10 @@ var app = app || {};
 
       // cache templates
       this.loadingHTML = $('#loadingMessage').html();
+
+      // listen to model events
+      this.listenTo(this.model, 'change', this.incrDispMsgCount);
+
     },
 
     render: function() {
@@ -41,9 +45,10 @@ var app = app || {};
       $chatRoomLinks.parent().removeClass('active');
       $li.addClass('active');
 
-      // hide the message notification
+      // hide the message notification and reset the new message counter
       $chatRoomLinks.find('span').show();
-      $element.find('span').hide();
+      $element.find('span').hide().text('0');
+      this.model.set('newMsgCount', 0);
 
       // set the progress bar and title of the message window
       this.$chatMessages.html(this.loadingHTML);
@@ -80,6 +85,10 @@ var app = app || {};
 
     },
 
+    incrDispMsgCount: function() {
+      this.$el.find('span').text( this.model.get('newMsgCount') );
+    }
+
   });
 
   // room list view
@@ -111,6 +120,10 @@ var app = app || {};
     tagName: 'div',
 
     template: _.template( $('#chatMessageTemplate').html() ),
+
+    initialize: function() {
+
+    },
 
     render: function() {
 

@@ -92,8 +92,7 @@ block app
   block templates
     script#roomTemplate(type="text/template")
       a.chatRoomLink(href="#", data-room!="<%= _id %>") <%= name %> 
-        span(style="display:none")
-          .badge 0
+        span(style="display:none").badge 0
 
     script#chatMessageTemplate(type="text/template")
       div.well.well-sm
