@@ -107,3 +107,86 @@ module.exports.DeleteChatRoom = function(req, res) {
   });
 
 };
+
+// list out recent NUM_MESSAGES chat messages of a room
+module.exports.ChatMessages = function(req, res) {
+
+  var ChatRoom = ChatModels.ChatRoom;
+  var ChatMessage = ChatModels.ChatMessage;
+  var NUM_MESSAGES = 50;
+
+  // get the room and see whether user is allowed to access messages
+  ChatRoom.findOne({
+    _id: req.query.room
+  }, function(err, room){
+    if(err) {
+      console.log(err);
+      res.send(500);
+      return;
+    }
+
+    if(!room) {
+      res.send(404);
+      return;
+    }
+
+    // check whether the user is owner or an allowed user of the room
+    // TODO: Add user check here
+    if(req.user.email !== room.owner.email) {
+      res.send(404);
+      return;
+    }
+
+    // the user is allowed to access the messages
+
+    ChatMessage.find({
+      room: req.query.room
+    })
+    .sort('-sent')
+    .limit(NUM_MESSAGES)
+    .exec(function(err, messages){
+      
+      if(err) {
+        console.log(err);
+        res.send(500);
+        return;
+      }
+
+      res.json(messages);
+
+    });
+
+  });
+
+};
+
+// create a chat message
+// this is only used for testing purpose only
+// WARNING it wont check for user permissions, room etc
+module.exports.CreateChatMessage = function(req, res) {
+
+  var ChatMessage = ChatModels.ChatMessage;
+
+  var message = new ChatMessage({
+    room: req.body.room,
+    message: req.body.message,
+    user: {
+      id: req.user._id,
+      email: req.user.email,
+      name: req.user.name,
+      avatar: req.user[req.user.provider].picture
+    }
+  });
+  message.save(function(err, savedMsg){
+
+    if(err) {
+      console.log(err);
+      res.send(500);
+      return;
+    }
+
+    res.json(savedMsg);
+
+  });
+
+};

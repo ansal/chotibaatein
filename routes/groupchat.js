@@ -14,6 +14,7 @@ exports.home = function(req, res) {
   ChatRoom
   .find()
   .where('owner.id').equals(req.user._id)
+  .sort('name')
   .exec(function(err, ownedRooms){
 
     if(err) {
@@ -23,6 +24,8 @@ exports.home = function(req, res) {
     }
 
     res.render('app/index.jade', {
+      //user info
+      user: JSON.stringify(req.user),
       // inorder to use as an inline JS, convert models into string first
       ownedRooms: JSON.stringify(ownedRooms)
     });

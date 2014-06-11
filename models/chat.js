@@ -21,6 +21,21 @@ var chatRoomSchema = new Schema({
  
 module.exports.ChatRoom = mongoose.model('ChatRoom', chatRoomSchema);
 
+// chat message
+var chatMessageSchema = new Schema({
+  room: ObjectId,
+  user: {
+    id: ObjectId,
+    email: String,
+    name: String,
+    avatar: String
+  },
+  message: String,
+  sent: { type: Date, default: Date.now }
+});
+
+module.exports.ChatMessage = mongoose.model('ChatMessage', chatMessageSchema);
+
 // uploaded files
 
 var uploadedFileSchema = new Schema({
@@ -34,3 +49,6 @@ var uploadedFileSchema = new Schema({
   },
   size: Number
 });
+
+module.exports.UploadedFile = mongoose.model('UploadedFile',
+  uploadedFileSchema);

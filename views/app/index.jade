@@ -21,70 +21,17 @@ block app
     div.col-md-6
       div.panel.panel-primary
         div.panel-heading
-          h3.panel-title Messages
+          h3.panel-title#chatMessageTitle Messages
         div.panel-body.scrollBarMessages#chatWindow
             div#chatMessages
-              div.well.well-sm
-                |  Looks like its going to rain today! Looks like its going to rain today! Looks like y!
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
+              p
+                | Click on any Rooms on the left to join a Room!
 
-              div.well.well-sm
-                |  Looks like its going to rain today! Looks like its going to rain today! Looks s going to rain today! Looks like its going to rain today!
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
-
-              div.well.well-sm
-                |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its goits gay!
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
-
-              div.well.well-sm
-                |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its goits going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today!
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
-
-              div.well.well-sm
-                |  Looks like its g
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
-
-              div.well.well-sm
-                |  Looks like its going to rain today! Looks like its going to rain today! Looks liy!
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
-
-              div.well.well-sm
-                |  Looks like its going to rain today! Looks like its going to rain today! Looks like its going to rain today! Looks like its gg to rain today! Looks like its going to rain today!
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
-
-              div.well.well-sm
-                |  Looks like its goin
-                br
-                img.img-circle(src="https://lh3.googleusercontent.com/-XdUIqdMkCWA/AAAAAAAAAAI/AAAAAAAAAAA/4252rscbv5M/photo.jpg?sz=30")
-                small.text-muted
-                  em  Person 1 on Jan 12 2014 at 5.30PM
-
-            div.newChatArea#newChatArea
-              textarea.form-control(placeholder="Type your message and press Enter!", rows=2)
+            div.newChatArea#newChatArea(style="display:none;")
+              textarea.form-control#newChatMessage(placeholder="Type your message and press Enter!", rows=2)
               p.pull-right
                 br
-                button.btn.btn-primary
+                button.btn.btn-primary#newChatMessageButton
                   span.glyphicon.glyphicon-envelope
                   |  Send Message
                 | 
@@ -144,9 +91,22 @@ block app
 
   block templates
     script#roomTemplate(type="text/template")
-      a.chatRoomLink(href="#") <%= name %> 
-        span
+      a.chatRoomLink(href="#", data-room!="<%= _id %>") <%= name %> 
+        span(style="display:none")
           .badge 0
+
+    script#chatMessageTemplate(type="text/template")
+      div.well.well-sm
+        |  <%= message  %>
+        hr
+        img.img-circle(src!="<%= user.avatar %>?sz=25")
+        small.text-muted
+          em  <%= user.name %> on <%= new Date(sent).toDateString()  %>, <%= new Date(sent).toTimeString() %>
+
+    script#loadingMessage(type="text/template")
+      p
+        | Loading.. Please Wait 
+        img(src="/assets/img/loading.gif")
 
 
 block javascripts
@@ -167,3 +127,6 @@ block javascripts
     | app.Rooms.reset(
     != ownedRooms
     |);
+    | app.User = 
+    !=user
+    |;

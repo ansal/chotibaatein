@@ -22,6 +22,13 @@ module.exports = function(app, passport) {
   app.put('/api/chatroom/:id', utils.restrictUser, apis.UpdateChatRoom);
   app.delete('/api/chatroom/:id', utils.restrictUser, apis.DeleteChatRoom);
 
+  // chat message
+  app.get('/api/chatmessage', utils.restrictUser, apis.ChatMessages);
+  // api to create chat message
+  // wont be used in production
+  // WARNING it wont check for user permissions, room etc
+  //app.post('/api/chatmessage', utils.restrictUser, apis.CreateChatMessage);
+
 
   // authentication pages, mostly hooks up with passportjs
   
