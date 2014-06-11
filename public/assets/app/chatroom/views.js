@@ -162,6 +162,9 @@ var app = app || {};
       var view = new app.MessageView({ model: message });
       this.$messageList.append(view.render().el);
 
+      // scroll to the bottom of chat window
+      this.$el.scrollTop(this.$el.prop('scrollHeight'));
+
     },
 
     addAllMessages: function() {

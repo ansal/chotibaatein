@@ -8,6 +8,7 @@ var MongoClient = require('mongodb').MongoClient;
 // app modules
 var configs = require('./config.js');
 var User = require('./models/user.js');
+var ChatModels = require('./models/chat.js');
 
 module.exports = function(app, server, mongostore) {
 
@@ -103,24 +104,76 @@ module.exports = function(app, server, mongostore) {
 
     socket.on('myMessage', function(msg){
 
-      io.sockets.in(msg.room).emit('newMessage', {
-        message: msg.message,
-        user: user,
-        room: msg.room,
-        sent: new Date()
-      });
+      // this might slow down the whole app
+      // may be a better strategy is to generate a uuid for each room
+      // and use that
+      ChatModels.ChatRoom.findOne({
+        _id: msg.room
+      }, function(err, chatRoom){
 
-      // TODO: save the message to db
+        if(err) {
+          console.log(err);
+          return;
+        }
+
+        // check whether the user is owner or an allowed user of the room
+        if(user.email !== chatRoom.owner.email
+          && chatRoom.allowedUsers.indexOf(user.email) === -1
+        ) {
+          return;
+        }
+
+        var newMessage = {
+          message: msg.message,
+          user: user,
+          room: msg.room,
+          sent: new Date()
+        };
+
+        // emit the signal and message
+        io.sockets.in(msg.room).emit('newMessage', newMessage);
+
+        // save the message to db
+        var chatMessage = new ChatModels.ChatMessage(newMessage);
+        chatMessage.save(function(err){
+          if(err) {
+            console.log(err);
+            return;
+          }
+        });
+
+      });
 
     });
 
     socket.on('joinRoom', function(room){
       var room = room.room;
-      socket.join(room, function(err){
-        if(err) {
-          console.log('Error joining room: ' + err);
+
+      // check whether the user is allowed to join this room
+      ChatModels.ChatRoom.findOne({
+        _id: room
+      }, function(err, chatRoom){
+        
+        if(err || !chatRoom) {
+          console.log(err);
+          return;
         }
+
+        // check whether the user is owner or an allowed user of the room
+        if(user.email !== chatRoom.owner.email
+          && chatRoom.allowedUsers.indexOf(user.email) === -1
+        ) {
+          return;
+        }
+
+        socket.join(room, function(err){
+          if(err) {
+            console.log('Error joining room: ' + err);
+          }
+        });
+
       });
+
     });
 
   });
