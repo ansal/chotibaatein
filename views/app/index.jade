@@ -33,15 +33,20 @@ block app
 
             div.newChatArea#newChatArea(style="display:none;")
               textarea.form-control#newChatMessage(placeholder="Type your message and press Enter!", rows=2)
-              p.pull-right
-                br
-                button.btn.btn-primary#newChatMessageButton
-                  span.glyphicon.glyphicon-envelope
-                  |  Send Message
-                | 
-                button.btn.btn-success
-                  span.glyphicon.glyphicon-cloud-upload
-                  |  Upload File
+              p
+                div.col-md-4
+                  button.btn.btn-primary#newChatMessageButton
+                    span.glyphicon.glyphicon-envelope
+                    |  Send Message
+
+              p
+                hr
+                div.col-md-4
+                  input#selectedFile(type="file")
+                div.col-md-4
+                  button.btn.btn-success.btn-xs#fileUploadButton
+                    span.glyphicon.glyphicon-cloud-upload
+                    |  Upload File
 
     div.col-md-3#peopleFileCol
       div.col-md-12
@@ -58,34 +63,11 @@ block app
         div.panel.panel-primary
           div.panel-heading
             h3.panel-title Files
-          div.panel-body.scrollBarPeople
-            ul.list-group
-              li.list-group-item.list-group-item-default
-                a(href="#") Img.jpg
-                br
-                small.text-muted Person 1 on 14, Jan 2014 4.30PM
-
-              li.list-group-item.list-group-item-default
-                a(href="#") Img.jpg
-                br
-                small.text-muted Person 1 on 14, Jan 2014 4.30PM
-
-              li.list-group-item.list-group-item-default
-                a(href="#") Img.jpg
-                br
-                small.text-muted Person 1 on 14, Jan 2014 4.30PM
-
-              li.list-group-item.list-group-item-default
-                a(href="#") Img.jpg
-                br
-                small.text-muted Person 1 on 14, Jan 2014 4.30PM
-
-              li.list-group-item.list-group-item-default
-                a(href="#") Img.jpg
-                br
-                small.text-muted Person 1 on 14, Jan 2014 4.30PM
+          div.panel-body.scrollBarPeople#fileWindow
+            ul.list-group#fileList
 
   block templates
+
     script#roomTemplate(type="text/template")
       a.chatRoomLink(href="#", data-room!="<%= _id %>") <%= name %> 
         span(style="display:none").badge 0
@@ -108,6 +90,11 @@ block app
         | Loading.. Please Wait 
         img(src="/assets/img/loading.gif")
 
+    script#fileTemplate(type="text/template")
+      li.list-group-item.list-group-item-default
+        a(href!="/app/getfile/<%= _id %>") <%= title %>
+        br
+        small.text-muted <%= user.name %> on <%= new Date(uploaded).toDateString()  %>, <%= new Date(uploaded).toTimeString() %>
 
 block javascripts
   // javascript libraries

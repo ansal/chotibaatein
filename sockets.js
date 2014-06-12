@@ -206,6 +206,33 @@ module.exports = function(app, server, mongostore) {
 
     });
 
+    socket.on('myFile', function(file){
+
+      console.log(file)
+
+      // check whether the user is allowed to message in this room
+      ChatModels.ChatRoom.findOne({
+        _id: file.chatRoom
+      }, function(err, chatRoom){
+
+        if(err || !chatRoom) {
+          console.log(err);
+          return;
+        }
+
+        // check whether the user is owner or an allowed user of the room
+        if(user.email !== chatRoom.owner.email
+          && chatRoom.allowedUsers.indexOf(user.email) === -1
+        ) {
+          return;
+        }
+
+        io.sockets.in(file.chatRoom).emit('newFile', file);
+
+      });
+
+    });
+
   });
 
 };

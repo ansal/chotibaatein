@@ -67,6 +67,22 @@ var app = app || {};
     app.Messages.add(msg);
   });
 
+  app.socket.on('newFile', function(file){
+
+    var $fileList = $('#fileList');
+    var $fileWindow = $('#fileWindow');
+
+    if(file.chatRoom !== app.state.room) {
+      return;
+    }
+
+    var template = _.template( $('#fileTemplate').html() );
+    var html = template( file );
+    $fileList.append( html )
+    $fileWindow.scrollTop($fileWindow.prop('scrollHeight'));;
+
+  });
+
   // click handlers for buttons to hide either of the three boxes
 
   var $chatRoomCol = $('#chatRoomCol');

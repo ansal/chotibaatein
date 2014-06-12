@@ -216,7 +216,7 @@ module.exports.UploadFile = function(req, res) {
         }
 
         var folder = configs.s3Bucket + '/' + chatRoom._id;
-        console.log(configs.s3Bucket, ' ', chatRoom._id)
+        var s3Id = req.user._id + new Date().getTime() + req.files.upload.name;
         var data = { 
           Bucket: folder,
           Key: req.files.upload.name,
@@ -237,7 +237,7 @@ module.exports.UploadFile = function(req, res) {
             title: req.files.upload.name,
 
             //s3 id is user id +  current unix time + '-' uploaded file name
-            s3Id: req.user._id + new Date().getTime() + req.files.upload.name,
+            s3Id: s3Id,
             
             user: {
               id: req.user._id,
@@ -265,6 +265,58 @@ module.exports.UploadFile = function(req, res) {
 
   });
 
+};
+
+// list out recent uploaded file of a room
+module.exports.UploadedFiles = function(req, res) {
+
+  var ChatRoom = ChatModels.ChatRoom;
+  var UploadedFile = ChatModels.UploadedFile;
+  var NUM_FILES = 30;
+
+  // get the room and see whether user is allowed to access messages
+  ChatRoom.findOne({
+    _id: req.query.room
+  }, function(err, room){
+    if(err) {
+      console.log(err);
+      res.send(500);
+      return;
+    }
+
+    if(!room) {
+      res.send(404);
+      return;
+    }
+
+    // check whether the user is owner or an allowed user of the room
+    if(req.user.email !== room.owner.email
+      && room.allowedUsers.indexOf(req.user.email) === -1
+    ) {
+      res.send(404);
+      return;
+    }
+
+    // the user is allowed to access the messages
+
+    UploadedFile.find({
+      chatRoom: req.query.room
+    })
+    .sort('-uploaded')
+    .limit(NUM_FILES)
+    .exec(function(err, files){
+      
+      if(err) {
+        console.log(err);
+        res.send(500);
+        return;
+      }
+
+      res.json(files);
+
+    });
+
+  });
 
 };
 
