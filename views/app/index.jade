@@ -52,19 +52,8 @@ block app
                 button.btn.btn-xs.btn.default#peopleFileHideButton
                   span.glyphicon.glyphicon-chevron-down
           div.panel-body.scrollBarPeople
-            h6
-              span.text-success 12 
-              | people online!
+            ul.list-group#peopleList
 
-            ul.list-group
-              li.list-group-item.list-group-item-success Person 1
-              li.list-group-item.list-group-item-warning Person 2 Person
-              li.list-group-item.list-group-item-success Person 1
-              li.list-group-item.list-group-item-success Person 2 Person
-              li.list-group-item.list-group-item-warning Person 1
-              li.list-group-item.list-group-item-success Person 1
-              li.list-group-item.list-group-item-success Person 2 Person
-              li.list-group-item.list-group-item-warning Person 2 Person
       div.col-md-12
         div.panel.panel-primary
           div.panel-heading
@@ -100,6 +89,11 @@ block app
     script#roomTemplate(type="text/template")
       a.chatRoomLink(href="#", data-room!="<%= _id %>") <%= name %> 
         span(style="display:none").badge 0
+
+    script#peopleTemplate(type="text/template")
+      <% _.each(onlineUsers, function(user, index){ %>
+      li.list-group-item.list-group <%= user.name %>
+      <% }); %>
 
     script#chatMessageTemplate(type="text/template")
       div.well.well-sm

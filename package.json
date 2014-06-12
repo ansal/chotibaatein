@@ -6,6 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.0.0-rc.19",
     "connect": "^2.19.4",
     "connect-mongo": "^0.4.1",
     "cookie": "^0.1.2",

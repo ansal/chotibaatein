@@ -6,6 +6,9 @@ var app = app || {};
   // chat state
   app.state = {};
 
+  // online users
+  app.state.onlineUsers = [];
+
   // all collections are bootstrapped backbone models using inline
   // js in jade
   // create collections
@@ -20,14 +23,32 @@ var app = app || {};
   app.socket = io.connect('', {
     'connection timeout' : 1000
   });
+
+   // listen to events
   app.socket.on('error', function(error){
     console.log('Opening socket to server failed: ', error);
   });
   app.socket.on('connect', function(){
     console.info('Opening socket to server completed successfully');
   });
+  app.socket.on('newUser', function(data){
+    if(app.state.onlineUsers.length === 0) {
+      app.state.onlineUsers = data.onlineUsers;
+      // this is the first time
+      // add all users
+      var peopleTemplate = _.template( $('#peopleTemplate').html() );
+      var peopleHTML = peopleTemplate({ onlineUsers: data.onlineUsers });
+      $('#peopleList').html( peopleHTML );
 
-  // listen to events
+    } else {
+      var peopleTemplate = _.template('<li class="list-group-item list-group"> <%= newUser.name %></li>');
+      var peopleHTML = peopleTemplate({
+        newUser: data.newUser
+      });
+      $('#peopleList').append(peopleHTML);
+    }
+  });
+  
   app.socket.on('newMessage', function(msg){
     // only add message of other users in the current room user is in
     if(msg.user.id === app.User._id) {

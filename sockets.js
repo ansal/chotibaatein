@@ -166,10 +166,40 @@ module.exports = function(app, server, mongostore) {
           return;
         }
 
+        var onlineUsers = chatRoom.onlineUsers;
+
         socket.join(room, function(err){
+          
           if(err) {
             console.log('Error joining room: ' + err);
+            return;
           }
+
+          // update online users in db
+          var usersAlreadyinDb = onlineUsers.filter(function(u){
+            return u.id.toString() === user.id.toString();
+          });
+          if(usersAlreadyinDb.length === 0) {
+            onlineUsers.push(user);
+          
+            // save room
+            chatRoom.onlineUsers = onlineUsers;
+            chatRoom.save(function(err, savedObject){
+
+              if(err) {
+                console.log(err);
+                return;
+              }
+
+            });
+          }
+
+          // broadcast newUser event
+          io.sockets.in(room).emit('newUser', {
+            newUser: user,
+            onlineUsers: onlineUsers
+          });
+
         });
 
       });

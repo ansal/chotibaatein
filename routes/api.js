@@ -1,7 +1,15 @@
 // simple restful apis for accessing mongoose models
 
+// module dependancies
+
+var fs = require('fs');
+var AWS = require('aws-sdk');
+// load the AWS SDK from file
+AWS.config.loadFromPath('awsconfig.json');
+
 // app modules
 var ChatModels = require('../models/chat.js')
+var configs = require('../config.js');
 
 // create a chat room
 module.exports.CreateChatRoom = function(req, res) {
@@ -158,6 +166,105 @@ module.exports.ChatMessages = function(req, res) {
     });
 
   });
+
+};
+
+// uploads a file to amazon S3
+module.exports.UploadFile = function(req, res) {
+
+  if(typeof req.files.upload === 'undefined') {
+    res.json(500, {
+      error: 'I need a file to upload'
+    });
+    return;
+  }
+
+  if(req.files.upload.size > configs.maxUploadFileSize) {
+    res.json(500, {
+      error: 'Uploaded file is greater than ' + configs.maxUploadFileSize
+    });
+    return;
+  }
+
+  // check whether the user is allowed to upload file in this room
+  var room = req.body.room;
+  ChatModels.ChatRoom
+  .findOne({
+    _id: room
+  })
+  .or([ {'owner.id': req.user._id}, { 'allowedUsers': req.user.email } ])
+  .exec(function(err, chatRoom){
+
+    if(err || !chatRoom) {
+      res.json(403, {
+        error: 'User is not allowed to upload here'
+      });
+      return;
+    }
+
+    // user is allowed to post here
+    // so send the file to s3
+    var s3 = new AWS.S3();
+    s3.client.createBucket({Bucket: configs.s3Bucket}, function() {
+      fs.readFile(req.files.upload.path, function(err, fileBuffer){
+
+        if(err) {
+          res.json(500, {
+            error: 'Failed to upload file to Amazon s3'
+          });
+          return;
+        }
+
+        var folder = configs.s3Bucket + '/' + chatRoom._id;
+        console.log(configs.s3Bucket, ' ', chatRoom._id)
+        var data = { 
+          Bucket: folder,
+          Key: req.files.upload.name,
+          Body: fileBuffer
+        };
+        s3.client.putObject(data, function(err){
+
+          if(err) {
+            res.json(500, {
+              error: 'Failed to upload file to Amazon s3'
+            });
+            return;
+          }
+
+          // save the file info to database
+          var uploadedFile = ChatModels.UploadedFile({
+            chatRoom: chatRoom._id,
+            title: req.files.upload.name,
+
+            //s3 id is user id +  current unix time + '-' uploaded file name
+            s3Id: req.user._id + new Date().getTime() + req.files.upload.name,
+            
+            user: {
+              id: req.user._id,
+              email: req.user.email,
+              name: req.user.name,
+              avatar: req.user[req.user.provider].picture
+            }
+          });
+          uploadedFile.save(function(err, savedObject){
+            
+            if(err) {
+              res.json(500, {
+                error: 'Uploading file failed'
+              });
+              return;
+            }
+
+            res.json(savedObject);
+
+          });
+
+        });
+      });
+    });
+
+  });
+
 
 };
 

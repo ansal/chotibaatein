@@ -15,7 +15,12 @@ var chatRoomSchema = new Schema({
     name: String
   },
   allowedUsers: [String],
-  onlineUsers: [ObjectId]
+  onlineUsers: [{
+    id: ObjectId,
+    email: String,
+    name: String,
+    avatar: String
+  }]
 
 });
  
@@ -41,11 +46,13 @@ module.exports.ChatMessage = mongoose.model('ChatMessage', chatMessageSchema);
 var uploadedFileSchema = new Schema({
   chatRoom: ObjectId,
   title: String,
+  s3Id: String,
   uploaded: { type: Date, default: Date.now },
   user: {
     id: ObjectId,
     email: String,
-    name: String
+    name: String,
+    avatar: String
   },
   size: Number
 });

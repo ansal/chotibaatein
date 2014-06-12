@@ -29,13 +29,18 @@ var app = app || {};
     },
 
     render: function() {
+      // main room view
       var html = this.template(this.model.toJSON());
       this.$el.html(html);
+
       return this;
     },
 
     activateNewRoom: function(e) {
       e.preventDefault();
+
+      // reset online people in this group
+      app.state.onlineUsers = [];
 
       var $element = $(e.target);
       var $li = $element.parent();
@@ -67,7 +72,6 @@ var app = app || {};
         success: function(data, textStatus) {
           app.Messages.reset(data);
           that.$newChatArea.show();
-
         },
         error: function(textStatus) {
           console.log('AJAX Error: ', textStatus);
