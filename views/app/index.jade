@@ -74,7 +74,7 @@ block app
 
     script#peopleTemplate(type="text/template")
       <% _.each(onlineUsers, function(user, index){ %>
-      li.list-group-item.list-group <%= user.name %>
+      li.list-group-item.list-group(data-user-id!="<%= user.id %>") <%= user.name %>
       <% }); %>
 
     script#chatMessageTemplate(type="text/template")
