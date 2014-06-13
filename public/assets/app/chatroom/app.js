@@ -32,31 +32,30 @@ var app = app || {};
     console.info('Opening socket to server completed successfully');
   });
   app.socket.on('newUser', function(data){
-    if(app.state.onlineUsers.length === 0) {
-      // this is the first time
-      // add all users
-      var peopleTemplate = _.template( $('#peopleTemplate').html() );
-      var peopleHTML = peopleTemplate({ onlineUsers: data.onlineUsers });
-      $('#peopleList').html( peopleHTML );
-
-    } else {
+    // check whether the data is for this room
+    if(data.room !== app.state.room) {
+      return;
+    }
+    for(var i  = 0; i < data.onlineUsers.length; i+=1) {
+      
       // only add the new user if he is not on the list
       var userInList = $('#peopleList').children();
       var userAlreadyInList = _.filter(userInList, function(li){
-        if($(li).data('user-id') === data.newUser.id) {
+        if($(li).data('user-id') === data.onlineUsers[i].id) {
           return true;
         }
       });
-      console.log(userAlreadyInList);
+
       if(userAlreadyInList.length !== 0) {
-        return;
+        continue;
       }
       var peopleTemplate = _.template('<li class="list-group-item list-group" data-user-id="<%= newUser.id %>" > <%= newUser.name %></li>');
       var peopleHTML = peopleTemplate({
-        newUser: data.newUser
+        newUser: data.onlineUsers[i]
       });
       $('#peopleList').append(peopleHTML);
     }
+
     app.state.onlineUsers = data.onlineUsers;
   });
   

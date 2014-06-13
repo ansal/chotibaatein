@@ -43,6 +43,7 @@ var app = app || {};
 
       // reset online people in this group
       app.state.onlineUsers = [];
+      $('#peopleList').html('');
 
       var $element = $(e.target);
       var $li = $element.parent();
@@ -64,6 +65,11 @@ var app = app || {};
       // load the messages via ajax for first (and last) time
       var room = $element.data('room');
       var that = this;
+
+      // emit the joinRoom signal
+      app.socket.emit('joinRoom', {
+        room: room
+      });
 
       // change room in app state
       app.state.room = room;
@@ -107,11 +113,6 @@ var app = app || {};
           console.log('AJAX Error: ', textStatus);
           window.alert('Failed to connect to server. Please try again!');
         }
-      });
-
-      // emit the joinRoom signal
-      app.socket.emit('joinRoom', {
-        room: room
       });
 
     },

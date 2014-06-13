@@ -88,8 +88,6 @@ module.exports = function(app, server, mongostore) {
 
   io.on('connection', function(socket){
 
-    console.log('user connected \\o/');
-
     var hs = socket.handshake;
     var user = {
       id: hs.chotibaatein.user._id,
@@ -168,6 +166,15 @@ module.exports = function(app, server, mongostore) {
 
         var onlineUsers = chatRoom.onlineUsers;
 
+        // broadcast newUser event
+        io.sockets.in(room).emit('newUser', {
+          room: room,
+          newUser: user,
+          onlineUsers: onlineUsers
+        });
+
+        user.room = room;
+
         socket.join(room, function(err){
           
           if(err) {
@@ -193,12 +200,6 @@ module.exports = function(app, server, mongostore) {
 
             });
           }
-
-          // broadcast newUser event
-          io.sockets.in(room).emit('newUser', {
-            newUser: user,
-            onlineUsers: onlineUsers
-          });
 
         });
 
@@ -230,6 +231,56 @@ module.exports = function(app, server, mongostore) {
         io.sockets.in(file.chatRoom).emit('newFile', file);
 
       });
+
+    });
+
+    socket.on('disconnect', function(){
+
+      ChatModels.ChatRoom.findOne({
+        _id: user.room
+      }, function(err, chatRoom){
+
+        if(err || !chatRoom) {
+          console.log(err);
+          return;
+        }
+
+        // check whether the user is owner or an allowed user of the room
+        if(user.email !== chatRoom.owner.email
+          && chatRoom.allowedUsers.indexOf(user.email) === -1
+        ) {
+          return;
+        }
+
+        io.sockets.in(user.room).emit('userLeft', {
+          user: user,
+          room: user.room
+        });
+
+        // find the index of online user
+        for(var i = 0; i < chatRoom.onlineUsers.length; i += 1) {
+          if( chatRoom.onlineUsers[i].id.toString() === user.id.toString()  ) {
+            break;
+          }
+        }
+
+        // user is not on the list
+        if(i === chatRoom.onlineUsers.length) {
+          return;
+        }
+
+        // remove the user from the list and save
+        chatRoom.onlineUsers.splice(i, 1);
+        chatRoom.save(function(err){
+          if(err) {
+            console.log(err);
+            return;
+          }
+        });
+
+      });
+
+
 
     });
 
