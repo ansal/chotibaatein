@@ -152,4 +152,52 @@ var app = app || {};
 
   });
 
+  app.InvitedRoomView = Backbone.View.extend({
+
+    el: '#addedRoomList',
+
+    events: {
+      'click .leaveRoomLink': 'leaveRoom'
+    },
+
+    leaveRoom: function(e) {
+      e.preventDefault();
+
+      var confirmation = window.confirm('This will remove you from this room.\n\nAre you sure?');
+      if(!confirmation) {
+        return;
+      }
+
+      var room = $(e.target).data('room-id');
+      // remove the double quotes at beginning and end
+      if(room.charAt(0) === '"' && room.charAt(room.length - 1) === '"' ) {
+        room = room.slice(1, -1);
+      }
+      var li = $(e.target).closest('li');
+
+      $.ajax('/api/invitedroom', {
+        data: {
+          room: room
+        },
+        dataType: 'json',
+        type: 'DELETE',
+        success: function(data, textStatus) {
+          if(typeof data.error === 'undefined') {
+            $(li).fadeOut().remove();
+          } else {
+            window.alert('An error occured while updating your status.\n\nPlease try again');
+          }
+        },
+
+        error: function(textStatus) {
+          console.log('Ajax Error: ', textStatus);
+          window.alert('An error occured while updating your status.\n\nPlease try again');
+        }
+
+      });
+
+    }
+
+  });
+
 })();

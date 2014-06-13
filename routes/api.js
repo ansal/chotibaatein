@@ -320,6 +320,58 @@ module.exports.UploadedFiles = function(req, res) {
 
 };
 
+// removes an user from a room
+exports.RemoveUser = function(req, res) {
+
+  var roomId = req.body.room;
+  ChatModels.ChatRoom.findOne({
+    _id: roomId
+  }, function(err, room){
+
+    if(err) {
+      console.log(err);
+      res.json(500);
+      return;
+    }
+
+    // remove the user from the allowed users list
+    var userIndex = room.allowedUsers.indexOf(req.user.email);
+    if(userIndex === -1) {
+      res.json(404, {error: 'User not in room'});
+      return;
+    }
+    room.allowedUsers.splice(userIndex, 1);
+
+    // if the user is in online users list, remove him from there too
+    // find the index of online user
+    for(var i = 0; i < room.onlineUsers.length; i += 1) {
+      if( room.onlineUsers[i].id.toString() === req.user._id.toString()  ) {
+        break;
+      }
+    }
+    // user is not on the list
+    if(i !== room.onlineUsers.length) {
+      room.onlineUsers.splice(i, 1);
+    }
+
+    room.save(function(err){
+
+      if(err) {
+        res.json(500);
+        return;
+      }
+
+      res.json({
+        success: 'User removed from the room'
+      });
+
+    });
+
+
+  });
+
+}
+
 // create a chat message
 // this is only used for testing purpose only
 // WARNING it wont check for user permissions, room etc

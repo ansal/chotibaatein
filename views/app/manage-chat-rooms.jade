@@ -1,6 +1,15 @@
 extends base
 
 block app
+
+  div.row
+    div.col-md-12
+      p.pull-right
+        small
+          | Welcome 
+          =User.name 
+          |!
+
   div.row
     div.col-md-12
       h3  Rooms you created -
@@ -17,9 +26,18 @@ block app
     div.col-md-12
       h3 Rooms you are added to -
       hr
-      div.alert.alert-info
-        | You are not yet added to any room :(
+      if invitedRooms.length == 0
+        div.alert.alert-info
+          | You are not yet added to any room :(
       ul#addedRoomList
+        each room in invitedRooms
+          li
+            h4
+              a(href='#')=room.name
+              br
+              small.muted-text
+                a.btn.btn-danger.btn-xs.leaveRoomLink(href='#', data-room-id=room._id, title="Leave this Room")
+                  span.glyphicon.glyphicon-log-out(data-room-id=room._id)
 
 block templates
   script#ownedRoomTemplate(type="text/template")

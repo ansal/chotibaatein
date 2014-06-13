@@ -1,6 +1,14 @@
 extends base
 
 block app
+
+  div.row
+    div.col-md-12
+      p.pull-right
+        small
+          | Welcome 
+          =User.name 
+          |!
   // chat rooms
   div.row
     div.col-md-12

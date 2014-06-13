@@ -32,7 +32,8 @@ exports.home = function(req, res) {
       //user info
       user: JSON.stringify(req.user),
       // inorder to use as an inline JS, convert models into string first
-      ownedRooms: JSON.stringify(ownedRooms)
+      ownedRooms: JSON.stringify(ownedRooms),
+      User: req.user
     });
 
   });
@@ -58,9 +59,25 @@ exports.manageChatRoom = function(req, res) {
       return;
     }
 
-    res.render('app/manage-chat-rooms.jade', {
-      // inorder to use as an inline JS, convert models into string first
-      ownedRooms: JSON.stringify(ownedRooms)
+    // get the rooms where user got an invitation
+    ChatRoom.find()
+    .where('allowedUsers').equals(req.user.email)
+    .exec(function(err, invitedRooms){
+
+      if(err) {
+        res.send(500);
+        return;
+      }
+
+      console.log(invitedRooms);
+
+      res.render('app/manage-chat-rooms.jade', {
+        // inorder to use as an inline JS, convert models into string first
+        ownedRooms: JSON.stringify(ownedRooms),
+        invitedRooms: invitedRooms,
+        User: req.user
+      });
+
     });
 
   });

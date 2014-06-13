@@ -23,6 +23,7 @@ module.exports = function(app, passport) {
   app.post('/api/chatroom', utils.restrictUser, apis.CreateChatRoom);
   app.put('/api/chatroom/:id', utils.restrictUser, apis.UpdateChatRoom);
   app.delete('/api/chatroom/:id', utils.restrictUser, apis.DeleteChatRoom);
+  app.delete('/api/invitedroom', utils.restrictUser, apis.RemoveUser);
 
   // files
   app.get('/api/uploadfile', utils.restrictUser, apis.UploadedFiles );

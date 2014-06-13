@@ -96,10 +96,6 @@ module.exports = function(app, server, mongostore) {
       avatar: hs.chotibaatein.user[hs.chotibaatein.user.provider].picture
     };
 
-    socket.on('disconnect', function(){
-      console.log('user disconnected');
-    });
-
     socket.on('myMessage', function(msg){
 
       // this might slow down the whole app
