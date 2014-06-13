@@ -92,7 +92,7 @@ block app
 
     script#fileTemplate(type="text/template")
       li.list-group-item.list-group-item-default
-        a(href!="/app/getfile/<%= _id %>") <%= title %>
+        a(href!="/app/getfile/<%= _id %>", target="_blank") <%= title %>
         br
         small.text-muted <%= user.name %> on <%= new Date(uploaded).toDateString()  %>, <%= new Date(uploaded).toTimeString() %>
 

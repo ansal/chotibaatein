@@ -13,6 +13,7 @@ module.exports = function(app, passport) {
   // pages after login
   app.get('/app', utils.restrictUser, groupchat.home);
   app.get('/app/manage-rooms', utils.restrictUser, groupchat.manageChatRoom);
+  app.get('/app/getfile/:id', utils.restrictUser, groupchat.getFile);
 
   // restful apis
 

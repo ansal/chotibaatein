@@ -219,7 +219,7 @@ module.exports.UploadFile = function(req, res) {
         var s3Id = req.user._id + new Date().getTime() + req.files.upload.name;
         var data = { 
           Bucket: folder,
-          Key: req.files.upload.name,
+          Key: s3Id,
           Body: fileBuffer
         };
         s3.client.putObject(data, function(err){
