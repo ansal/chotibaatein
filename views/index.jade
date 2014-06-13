@@ -1,0 +1,93 @@
+doctype html
+html(lang="en")
+  head
+    title ChotiBaatein - Online Group Chat App
+    link(href="/assets/stylesheets/bootstrap.min.css", rel="stylesheet")
+    link(href="/assets/stylesheets/font-awesome.css", rel="stylesheet")
+    link(href="/assets/stylesheets/bootstrap-social.css", rel="stylesheet")
+    link(href="/assets/stylesheets/styles.css", rel="stylesheet")
+
+  body
+
+    // navigation bar
+    nav.navbar.navbar-default(role="navigation")
+      div.container-fluid
+        div.navbar-header
+          button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-collapse-links-1")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href="/app") ChotiBaatein
+
+        div.collapse.navbar-collapse#navbar-collapse-links-1
+          ul.nav.navbar-nav.navbar-right
+            li
+              span.navbar-form.navbar-right
+                button.btn.btn-primary(data-toggle="modal", data-target="#loginModal") 
+                  |  Join Now !
+
+    div.jumbotron
+      div.container
+        h1 Welcome to ChotiBaatein!
+        p 
+          | ChotiBaatein (Smalltalk) lets you create online chat rooms easily!
+
+    // app body
+    div.container-fluid
+
+      div.row
+        div.col-md-4
+          h3 
+            span.glyphicon.glyphicon-comment
+            |  Create Chat Rooms
+          hr
+          h4
+            | Create private chat rooms to discuss about the topics you love!
+
+        div.col-md-4
+          h3 
+            span.glyphicon.glyphicon-ok
+            |  Invite People
+          hr
+          h4
+            | You own your room. Invite people and Kick trollers whenever you want!
+
+        div.col-md-4
+          h3 
+            span.glyphicon.glyphicon-send
+            |  Upload Files
+          hr
+          h4
+            | Files uploaded by you or your room members will be available to the rest of members instantly.
+
+      div.row
+        div.col-md-12
+          hr
+          p
+            | Built with 
+            span.glyphicon.glyphicon-heart
+            |  in 
+            a(href="https://www.zenpics.net/album/5358a16533cb3aae749d9774") Banjarpalya
+            | . View 
+            a(href="https://github.com/ansal/chotibaatein") source
+            |.
+
+    div.modal.fade#loginModal(tabindex="-1", role="dialog", aria-labelledby="loginModalLabel", aria-hidden="true")
+      div.modal-dialog.modal-sm
+        div.modal-content
+          div.modal-header
+            h4.modal-title#loginModalLabel Connect your account with ChotiBaatein!
+          div.modal-body
+            a.btn.btn-block.btn-social.btn-google-plus(href="/auth/login/google/")
+              i.fa.fa-google-plus
+              | Sign in with Google
+            br
+            a.btn.btn-block.btn-social.btn-facebook(href="/auth/login/facebook/")
+              i.fa.fa-facebook
+              | Sign in with Facebook
+          div.modal-footer
+            small No Spam. Promise.
+
+    script(src="/assets/javascripts/lib/jquery.min.js")
+    script(src="/assets/javascripts/lib/bootstrap.min.js")

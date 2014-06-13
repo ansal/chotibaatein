@@ -5,7 +5,7 @@
 
 exports.index = function(req, res){
   if(!req.user) {
-    res.send('Not logged in yet!');
+    res.render('index.jade');
     return;
   }
   res.redirect('/app');

@@ -61,16 +61,4 @@ module.exports = function(app, passport) {
     })
   );
 
-  // github
-
-  app.get('/auth/login/github', passport.authenticate('github', {
-    scope: 'user:email'
-  }));
-  app.get(config.github.callbackURL, 
-    passport.authenticate('github', {
-      successRedirect: '/',
-      failureRedirect: '?loginError=true'
-    })
-  );  
-
 }
