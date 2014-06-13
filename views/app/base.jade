@@ -20,14 +20,12 @@ html(lang="en")
 
         div.collapse.navbar-collapse#navbar-collapse-links-1
           ul.nav.navbar-nav.navbar-right
-            li.active
+            li#chatRoomsPage
               a(href="/app") Chat Rooms
-            li
+            li#manageRoomPage
               a(href="/app/manage-rooms") Manage Rooms
             li
-              a(href="#") Profile
-            li
-              a(href="#") Logout
+              a(href="/app/logout") Logout
 
     // app body
     div.container-fluid#app

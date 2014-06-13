@@ -14,6 +14,7 @@ module.exports = function(app, passport) {
   app.get('/app', utils.restrictUser, groupchat.home);
   app.get('/app/manage-rooms', utils.restrictUser, groupchat.manageChatRoom);
   app.get('/app/getfile/:id', utils.restrictUser, groupchat.getFile);
+  app.get('/app/logout', groupchat.logout);
 
   // restful apis
 

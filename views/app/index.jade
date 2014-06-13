@@ -96,6 +96,10 @@ block app
         br
         small.text-muted <%= user.name %> on <%= new Date(uploaded).toDateString()  %>, <%= new Date(uploaded).toTimeString() %>
 
+  // for activation page links in the navigation bar
+  div(style="display:none;")
+    input#pageName(type="hidden", value="chatRoomsPage")
+
 block javascripts
   // javascript libraries
   script(src="/assets/javascripts/lib/jquery.min.js")

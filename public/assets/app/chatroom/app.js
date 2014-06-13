@@ -141,4 +141,7 @@ var app = app || {};
     }
   });
 
+  // activate the correct menu link in navigation bar
+  $('#' + $('#pageName').val() ).addClass('active');
+
 })();

@@ -107,3 +107,11 @@ exports.getFile = function(req, res) {
   });
 
 };
+
+// logouts a user
+exports.logout = function(req, res) {
+
+  req.logout();
+  res.redirect('?loggedOut=true');
+
+};
