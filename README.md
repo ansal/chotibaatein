@@ -1,4 +1,5 @@
 chotibaatein.com
 ================
+![alt text](https://github.com/ansal/chotibaatein/raw/master/public/assets/img/screenshot.png "Screenshot")
 
-Source code of website www.chotibateein.com
+ChotiBaatein (smalltalk in Hindi) is a simple gorup chat application written in ExpressJS, Socket.IO and BackboneJS. See the blog post about ChotiBaatein here - 
